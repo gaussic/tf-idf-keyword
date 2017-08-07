@@ -1,2 +1,2 @@
-# tf-idf-generator
-Generate IDF for customized corpus and calculate TF for each document
+# tf-idf-keyword
+Generate IDF for customized corpus and calculate TF for each document.
