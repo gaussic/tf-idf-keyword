@@ -22,4 +22,36 @@ $ python tfidf.py -i <idffile> -d <document> -t <topK>
 - `-d <document>` ： 所需处理文档路径
 - `-t <topK>`     ： 返回topK结果
 
+### 示例
+
+```bash
+$ python tfidf.py -i idf.txt -d test.txt -t 20
+```
+
+返回结果：
+
+```
+交通
+翼
+路况
+中国电信
+电信
+国电
+服务
+天
+武汉
+信息
+市民
+出行
+便民
+武汉热线
+通路
+交通广播
+实时
+看
+分公司
+手机
+```
+
+
 
