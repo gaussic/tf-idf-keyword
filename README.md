@@ -1,5 +1,13 @@
 # 基于TD-IDF的中文关键词提取
 
+## requirements
+
+需要结巴分词器的支持
+
+```bash
+$ pip install jieba
+```
+
 ## IDF(逆文档频率)生成
 
 用法：
