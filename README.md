@@ -2,7 +2,7 @@
 
 ## requirements
 
-需要结巴分词器的支持
+默认环境python3，需要结巴分词器的支持
 
 ```bash
 $ pip install jieba
