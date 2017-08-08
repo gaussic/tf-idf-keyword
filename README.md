@@ -8,7 +8,7 @@
 $ python gen_idf.py -i <inputdir> -o <outputfile>
 ```
 
-- -i <inputdir>   ： 语料库目录，程序会扫描目录下的所有文件
-- -o <outputfile> ： 保存idf到指定文件
+- `-i <inputdir>`   ： 语料库目录，程序会扫描目录下的所有文件
+- `-o <outputfile>` ： 保存idf到指定文件
 
 
