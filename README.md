@@ -53,5 +53,7 @@ $ python tfidf.py -i idf.txt -d test.txt -t 20
 手机
 ```
 
+> 注：该repo中提供的idf.txt由清华NLP组的新闻数据集训练获得。
+
 
 
