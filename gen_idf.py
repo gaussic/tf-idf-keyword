@@ -1,46 +1,72 @@
 #!/usr/bin/python
 # -*- coding: utf-8 -*-
 
-# 使用结巴分词
-
-import jieba
 import os
-from collections import Counter
-import numpy as np
+import math
+import re
 import datetime
+import sys, getopt
 
-class MyDocuments(object):
+from segmenter import segment
+
+class MyDocuments(object):    # memory efficient data streaming
     def __init__(self, dirname):
         self.dirname = dirname
+        if not os.path.isdir(dirname):
+            print(dirname, '- not a directory!')
+            sys.exit()
  
     def __iter__(self):
         for dirfile in os.walk(self.dirname):
             for fname in dirfile[2]:
-                text = open(os.path.join(dirfile[0], fname), 'r', 
-                    encoding='UTF-8').read().replace('\n', '')
-                yield list(set(jieba.cut(text, cut_all=True)))
-
-documents = MyDocuments('./corpus/THUCNews/')
-
-ignore = {'\n', ''}
-counter = Counter()
-word_list = []
-i = 0
-for doc in documents:
-    word_list.extend(doc)
-    if i % 1000 == 0:
-        counter += Counter(x for x in word_list if x not in ignore)
-        word_list = []
-        print('Documents processed: ', i, 'time: ', datetime.datetime.now())
-    i += 1
-
-counter += Counter(x for x in word_list if x not in ignore)
+                text = open(os.path.join(dirfile[0], fname), 
+                            'r', encoding='utf-8').read()
+                yield segment(text)   # time consuming
 
 
-with open('idf.txt', 'w', encoding='utf-8') as f:
-    for key, value in counter.items():
-        f.write(key + ' ' + str(np.log2(i / value)) + '\n')
+def main(argv):   # idf generator
+    inputdir = ''
+    outputfile = ''
+
+    usage = 'usage: python gen_idf.py -i <inputdir> -o <outputfile>'
+    if len(argv) < 4:
+        print(usage)
+        sys.exit()
+    try:
+        opts, args = getopt.getopt(argv,"hi:o:",["idir=","ofile="])
+    except getopt.GetoptError:
+        print(usage)
+        sys.exit(2)
+
+    for opt, arg in opts:   # parsing arguments
+        if opt == '-h':
+            print(usage)
+            sys.exit()
+        elif opt in ("-i", "--idir"):
+            inputdir = arg
+        elif opt in ("-o", "--ofile"):
+            outputfile = arg
+
+    documents = MyDocuments(inputdir)
+
+    ignored = {'', ' ', '', '。', '：', '，', '）', '（', '！', '?', '”', '“'}
+    id_freq = {}
+    i = 0
+    for doc in documents:
+        doc = (x for x in doc if x not in ignored)
+        for x in doc:
+            id_freq[x] = id_freq.get(x, 0) + 1
+        if i % 1000 == 0:
+            print('Documents processed: ', i, ', time: ', 
+                datetime.datetime.now())
+        i += 1
+
+    with open(outputfile, 'w', encoding='utf-8') as f:
+        for key, value in id_freq.items():
+            f.write(key + ' ' + str(math.log(i / value, 2)) + '\n')
 
     
+if __name__ == "__main__":
+   main(sys.argv[1:])
 
 
