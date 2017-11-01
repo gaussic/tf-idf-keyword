@@ -20,7 +20,7 @@ class MyDocuments(object):    # memory efficient data streaming
         for dirfile in os.walk(self.dirname):
             for fname in dirfile[2]:
                 text = open(os.path.join(dirfile[0], fname),
-                            'r', encoding='utf-8').read()
+                            'r', encoding='utf-8', errors='ignore').read()
                 yield segment(text)   # time consuming
 
 

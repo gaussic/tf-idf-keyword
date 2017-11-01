@@ -40,13 +40,10 @@ class TFIDF(object):
         freq = {}
         for w in seg_list:
             freq[w] = freq.get(w, 0.0) + 1.0
-        if '' in freq:
-            del freq['']
         total = sum(freq.values())
 
         for k in freq:   # 计算 TF-IDF
             freq[k] *= self.idf_freq.get(k, self.mean_idf) / total
-
 
         tags = sorted(freq, key=freq.__getitem__, reverse=True)  # 排序
 
@@ -83,7 +80,7 @@ def main(argv):
             topK = int(arg)
 
     tdidf = TFIDF(idffile)
-    sentence = open(document, 'r', encoding='utf-8').read()
+    sentence = open(document, 'r', encoding='utf-8', errors='ignore').read()
     tags = tdidf.extract_keywords(sentence, topK)
 
     for tag in tags:
