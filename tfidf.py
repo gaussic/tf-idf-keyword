@@ -5,7 +5,7 @@ from segmenter import segment
 import sys, getopt
 
 
-class IDFLoader(object): 
+class IDFLoader(object):
     def __init__(self, idf_path):
         self.idf_path = idf_path
         self.idf_freq = {}     # idf
@@ -27,7 +27,7 @@ class IDFLoader(object):
         self.mean_idf = sum(self.idf_freq.values()) / cnt
 
 
-class TFIDF(object): 
+class TFIDF(object):
     def __init__(self, idf_path):
         self.idf_loader = IDFLoader(idf_path)
         self.idf_freq = self.idf_loader.idf_freq
@@ -36,7 +36,7 @@ class TFIDF(object):
     def extract_keywords(self, sentence, topK=20):    # 提取关键词
         # 过滤
         seg_list = segment(sentence)
-        
+
         freq = {}
         for w in seg_list:
             freq[w] = freq.get(w, 0.0) + 1.0

@@ -15,11 +15,11 @@ class MyDocuments(object):    # memory efficient data streaming
         if not os.path.isdir(dirname):
             print(dirname, '- not a directory!')
             sys.exit()
- 
+
     def __iter__(self):
         for dirfile in os.walk(self.dirname):
             for fname in dirfile[2]:
-                text = open(os.path.join(dirfile[0], fname), 
+                text = open(os.path.join(dirfile[0], fname),
                             'r', encoding='utf-8').read()
                 yield segment(text)   # time consuming
 
@@ -53,11 +53,11 @@ def main(argv):   # idf generator
     id_freq = {}
     i = 0
     for doc in documents:
-        doc = (x for x in doc if x not in ignored)
+        doc = set(x for x in doc if x not in ignored)
         for x in doc:
             id_freq[x] = id_freq.get(x, 0) + 1
         if i % 1000 == 0:
-            print('Documents processed: ', i, ', time: ', 
+            print('Documents processed: ', i, ', time: ',
                 datetime.datetime.now())
         i += 1
 
@@ -65,8 +65,6 @@ def main(argv):   # idf generator
         for key, value in id_freq.items():
             f.write(key + ' ' + str(math.log(i / value, 2)) + '\n')
 
-    
+
 if __name__ == "__main__":
    main(sys.argv[1:])
-
-
