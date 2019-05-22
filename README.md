@@ -1,4 +1,4 @@
-# 基于TD-IDF的中文关键词提取
+# 基于TF-IDF的中文关键词提取
 
 ## requirements
 
